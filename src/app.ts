@@ -1,5 +1,6 @@
 import express from 'express';
 import { RouterSingleton } from './RouterSingleton';
+import './controllers/LoginTest'
 
 const app = express();
 
@@ -12,3 +13,5 @@ app.use(RouterSingleton.getInstance())
 app.listen(PORT, ()=>{
     console.log(`...listening port ${PORT}`);
 })
+
+export default app;
