@@ -1,4 +1,6 @@
 import 'reflect-metadata'
+import { AppFeatures, AppMethods } from '../../constants'
+
 
 const methodWrapper = (method: AppMethods)=>{
     return (path: string)=>{

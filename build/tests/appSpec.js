@@ -18,7 +18,6 @@ const request = (0, supertest_1.default)(app_1.default);
 describe('Testing image endpoint: ', () => {
     it('testing send status for image enpoint', () => __awaiter(void 0, void 0, void 0, function* () {
         const result = yield request.get('/images');
-        console.log(result.status);
         expect(result.status).toBe(200);
     }));
 });

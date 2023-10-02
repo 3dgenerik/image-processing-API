@@ -10,25 +10,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const decorators_1 = require("./decorators");
-const app_1 = require("../app");
-let LoginTest = class LoginTest {
-    test(req, res) {
-        // const joc = url.format({
-        //     pathname: "/api/image",
-        //     query:{
-        //         imageId: "Mire"
-        //     }
-        // })
-        res.sendFile(`${app_1.publicPath}/full/fjord.jpg`);
+let RootController = class RootController {
+    getRoot(req, res) {
+        res.redirect('/api/images');
+        // res.send('ROOT')
     }
 };
 __decorate([
-    (0, decorators_1.get)('images'),
-    (0, decorators_1.validator)('mire', 'bore'),
+    (0, decorators_1.get)('/'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", void 0)
-], LoginTest.prototype, "test", null);
-LoginTest = __decorate([
-    (0, decorators_1.controller)('/api')
-], LoginTest);
+], RootController.prototype, "getRoot", null);
+RootController = __decorate([
+    (0, decorators_1.controller)('/')
+], RootController);

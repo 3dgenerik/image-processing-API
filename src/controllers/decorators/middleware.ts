@@ -1,4 +1,6 @@
 import { RequestHandler } from "express";
+import { AppFeatures } from '../../constants'
+
 
 export const middleware = (middleware: RequestHandler)=>{
     return (target: any, key: string, desc: PropertyDescriptor) => {

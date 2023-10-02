@@ -1,5 +1,7 @@
 import 'reflect-metadata'
 import { RouterSingleton } from '../../RouterSingleton'
+import { AppFeatures, AppMethods } from '../../constants'
+import { queryParamsValidation } from '../utils/middlewares/queryValidationMiddleware'
 
 export const controller = (routePrefix: string)=>{
     return (target: Function)=>{
@@ -11,7 +13,7 @@ export const controller = (routePrefix: string)=>{
             const middleware = Reflect.getMetadata(AppFeatures.MIDDLEWARE, target.prototype, key) || [];
             const validation = Reflect.getMetadata(AppFeatures.VALIDATOR, target.prototype, key) || [];
             if(path && method){
-                router[method](`${routePrefix}${path}`, [...middleware], target.prototype[key])
+                router[method](`${routePrefix}${path}`, [...middleware], queryParamsValidation(validation), target.prototype[key])
             }
         }
     }
