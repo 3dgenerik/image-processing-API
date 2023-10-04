@@ -25,3 +25,8 @@ export interface ICustomError{
     }
 }
 
+export const enum ImageDirType{
+    FULL = 'full',
+    THUMB = 'thumb'
+} 
+

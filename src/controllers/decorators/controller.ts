@@ -2,6 +2,7 @@ import 'reflect-metadata'
 import { RouterSingleton } from '../../RouterSingleton'
 import { AppFeatures, AppMethods } from '../../constants'
 import { queryParamsValidation } from '../utils/middlewares/queryValidationMiddleware'
+import { imageExistsValidation } from '../utils/middlewares/imageExistsValidationMiddleware'
 
 export const controller = (routePrefix: string)=>{
     return (target: Function)=>{
