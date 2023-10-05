@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.queryParamsValidation = void 0;
 const ErrorHandler_1 = require("../custom/ErrorHandler");
+const FilesFactory_1 = require("../../../utils/FilesFactory");
 const isPositivInt = (size, dim) => {
     if (Number.isNaN(size) || size < 1) {
         throw new ErrorHandler_1.CustomError(`${dim} must be positive integer`, 422);
@@ -18,25 +19,38 @@ const isPositivInt = (size, dim) => {
 };
 const queryParamsValidation = (keys) => {
     return (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-        const query = req.query;
-        const width = parseInt(query.width);
-        const height = parseInt(query.height);
-        let invalidQueryParams = [];
-        if (!query) {
-            throw new ErrorHandler_1.CustomError('Invalid request', 422);
+        try {
+            const query = req.query;
+            const width = parseInt(query.width);
+            const height = parseInt(query.height);
+            const fullImageExist = yield FilesFactory_1.FileFactory.doesFullImageExist(query.filename);
+            const getAllFullImageNames = yield FilesFactory_1.FileFactory.getImageNames("full" /* ImageDirType.FULL */);
+            let invalidQueryParams = [];
+            if (!query) {
+                throw new ErrorHandler_1.CustomError('Invalid request', 422);
+            }
+            for (const key of keys) {
+                if (!query[key]) {
+                    invalidQueryParams.push(key);
+                }
+            }
+            if (invalidQueryParams.length > 0)
+                throw new ErrorHandler_1.CustomError(`Invalid request. Missing query parameters: ${[
+                    ...invalidQueryParams,
+                ].join(', ')}`, 422);
+            if (Object.keys(query).length > 0) {
+                isPositivInt(width, 'width');
+                isPositivInt(height, 'height');
+            }
+            if (!fullImageExist && query.filename !== undefined)
+                throw new ErrorHandler_1.CustomError(`Filename "${query.filename}" doesn't exist. Please use one of these filenames: ${[...getAllFullImageNames].join(", ")}.`, 422);
+            next();
         }
-        for (const key of keys) {
-            if (!query[key]) {
-                invalidQueryParams.push(key);
+        catch (err) {
+            if (err instanceof ErrorHandler_1.CustomError) {
+                next(err);
             }
         }
-        if (invalidQueryParams.length > 0)
-            throw new ErrorHandler_1.CustomError(`Invalid request. Missing query parameters: ${[...invalidQueryParams].join(', ')}`, 422);
-        if (Object.keys(query).length > 0) {
-            isPositivInt(width, "width");
-            isPositivInt(height, "height");
-        }
-        next();
     });
 };
 exports.queryParamsValidation = queryParamsValidation;

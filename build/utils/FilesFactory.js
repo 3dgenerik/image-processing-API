@@ -69,7 +69,11 @@ class FileFactory {
     static thumbImageMainPath(query) {
         const thumbFileName = FileFactory.thumbFileName(query);
         const thumbDirPath = FileFactory.getImageDirPath("thumb" /* ImageDirType.THUMB */);
-        return `${thumbDirPath}/${thumbFileName}${FileFactory.format}`;
+        return `${path_1.default.join(thumbDirPath, thumbFileName)}${FileFactory.format}`;
+    }
+    static fullImageMainPath(filename) {
+        const imageDirPath = FileFactory.getImageDirPath("full" /* ImageDirType.FULL */);
+        return `${path_1.default.join(imageDirPath, filename)}${FileFactory.format}`;
     }
 }
 exports.FileFactory = FileFactory;

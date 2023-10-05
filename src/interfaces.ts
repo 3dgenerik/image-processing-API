@@ -4,3 +4,10 @@ export interface IQueryImage {
     width: number;
     height: number;
 }
+
+export interface IProcessImage{
+    sourceFile: string, 
+    targetFile: string,
+    width: number,
+    height: number
+}

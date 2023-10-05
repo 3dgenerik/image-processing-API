@@ -12,14 +12,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.imageExistsValidation = void 0;
 const ErrorHandler_1 = require("../custom/ErrorHandler");
 const FilesFactory_1 = require("../../../utils/FilesFactory");
-const imageExistsValidation = (num) => {
+const imageExistsValidation = () => {
     return (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-        const query = req.query;
-        const fullImageExist = yield FilesFactory_1.FileFactory.doesFullImageExist(query.filename);
-        const thumbImageExist = yield FilesFactory_1.FileFactory.doesThumbImageExist(query);
-        if (true)
-            throw new ErrorHandler_1.CustomError("Doesn't exist in full folder.", 422);
-        next();
+        try {
+            const query = req.query;
+            const fullImageExist = yield FilesFactory_1.FileFactory.doesFullImageExist(query.filename);
+            const thumbImageExist = yield FilesFactory_1.FileFactory.doesThumbImageExist(query);
+            // if(true)
+            //     throw new CustomError('OVO RADIIIII', 422);
+            next();
+        }
+        catch (err) {
+            if (err instanceof ErrorHandler_1.CustomError) {
+                next(err);
+            }
+        }
     });
 };
 exports.imageExistsValidation = imageExistsValidation;

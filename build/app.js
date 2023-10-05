@@ -13,9 +13,10 @@ const app = (0, express_1.default)();
 const PORT = 3000;
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
+3;
 app.use(express_1.default.static(constants_1.constants.publicPath));
 app.use(RouterSingleton_1.RouterSingleton.getInstance());
-app.use(errorMiddleware_1.errorHandler);
+app.use(errorMiddleware_1.errorHandlerMiddleware);
 app.listen(PORT, () => {
     console.log(`...listening port ${PORT}`);
 });

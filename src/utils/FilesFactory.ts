@@ -63,8 +63,14 @@ export class FileFactory{
     public static thumbImageMainPath(query: IQueryImage):string{
         const thumbFileName = FileFactory.thumbFileName(query)
         const thumbDirPath = FileFactory.getImageDirPath(ImageDirType.THUMB)
-        
-        return `${thumbDirPath}/${thumbFileName}${FileFactory.format}`
+
+        return `${path.join(thumbDirPath, thumbFileName)}${FileFactory.format}`
+    }
+
+    public static fullImageMainPath(filename: string):string{
+        const imageDirPath = FileFactory.getImageDirPath(ImageDirType.FULL)
+
+        return `${path.join(imageDirPath, filename)}${FileFactory.format}`
     }
 
 

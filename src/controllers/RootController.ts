@@ -1,5 +1,6 @@
 import {  Request, Response } from "express";
 import { controller, get} from "./decorators";
+import { CustomError } from "./utils/custom/ErrorHandler";
 
 @controller('/')
 class RootController{

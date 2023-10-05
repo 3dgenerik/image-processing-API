@@ -1,24 +1,45 @@
-import { NextFunction, Request, Response } from "express";
-import { controller, get, validator, middleware } from "./decorators";
-import { ImageDirType, constants } from "../constants";
-import { IQueryImage } from "../interfaces";
-import { FileFactory } from "../utils/FilesFactory";
-import { CustomError } from "./utils/custom/ErrorHandler";
-
-
+import { NextFunction, Request, Response } from 'express';
+import { controller, get, validator } from './decorators';
+import { IProcessImage, IQueryImage } from '../interfaces';
+import { FileFactory } from '../utils/FilesFactory';
+import { ImageProcessFactory } from '../utils/ImageProcessFacory';
+import { CustomError } from './utils/custom/ErrorHandler';
 
 @controller('/api')
-class ImagesController{
-    @get('/images')
-    @validator('filename', 'width', 'height') 
-    async getImages(req: Request, res: Response){
-        const query = req.query as unknown as IQueryImage;
-        const fullImageExist = await FileFactory.doesFullImageExist(query.filename);
-        const thumbImageExist = await FileFactory.doesThumbImageExist(query)
+class ImagesController {
+  @get('/images')
+  @validator('filename', 'width', 'height')
+  async getImages(req: Request, res: Response, next: NextFunction) {
+    try {
+      let isImageProcess = true;
+      const query = req.query as unknown as IQueryImage;
+      const thumbImageExist = await FileFactory.doesThumbImageExist(query);
 
-        // if(!fullImageExist)
-        // throw new CustomError(`Image ${query.filename}${FileFactory.format} doesn't exists.`, 422)
+      const mainFullImagePath = FileFactory.fullImageMainPath(query.filename);
+      const mainThumbImagePath = FileFactory.thumbImageMainPath(query);
 
-        res.sendFile(`${FileFactory.getImageDirPath(ImageDirType.FULL)}/${query.filename}.jpg`)
+      const processImageParameters: IProcessImage = {
+        sourceFile: mainFullImagePath,
+        targetFile: mainThumbImagePath,
+        width: Number(query.width),
+        height: Number(query.height),
+      };
+
+      if (!thumbImageExist) {
+        console.log(`Image ${FileFactory.thumbFileName(query)}${FileFactory.format} not exists. Creating images...`,);
+        isImageProcess = await ImageProcessFactory.processImage(processImageParameters,);
+      } else {
+        console.log(`Image ${FileFactory.thumbFileName(query)}${FileFactory.format} already exists.`);
+      }
+
+      if (!isImageProcess)
+        throw new CustomError(`Ooops, can't create image.`, 422);
+
+      res.sendFile(mainThumbImagePath);
+    } catch (err) {
+      if (err instanceof CustomError) {
+        next(err);
+      }
     }
+  }
 }

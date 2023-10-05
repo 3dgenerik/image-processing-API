@@ -20,15 +20,39 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const decorators_1 = require("./decorators");
 const FilesFactory_1 = require("../utils/FilesFactory");
+const ImageProcessFacory_1 = require("../utils/ImageProcessFacory");
+const ErrorHandler_1 = require("./utils/custom/ErrorHandler");
 let ImagesController = class ImagesController {
-    getImages(req, res) {
+    getImages(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = req.query;
-            const fullImageExist = yield FilesFactory_1.FileFactory.doesFullImageExist(query.filename);
-            const thumbImageExist = yield FilesFactory_1.FileFactory.doesThumbImageExist(query);
-            // if(!fullImageExist)
-            // throw new CustomError(`Image ${query.filename}${FileFactory.format} doesn't exists.`, 422)
-            res.sendFile(`${FilesFactory_1.FileFactory.getImageDirPath("full" /* ImageDirType.FULL */)}/${query.filename}.jpg`);
+            try {
+                let isImageProcess = true;
+                const query = req.query;
+                const thumbImageExist = yield FilesFactory_1.FileFactory.doesThumbImageExist(query);
+                const mainFullImagePath = FilesFactory_1.FileFactory.fullImageMainPath(query.filename);
+                const mainThumbImagePath = FilesFactory_1.FileFactory.thumbImageMainPath(query);
+                const processImageParameters = {
+                    sourceFile: mainFullImagePath,
+                    targetFile: mainThumbImagePath,
+                    width: Number(query.width),
+                    height: Number(query.height),
+                };
+                if (!thumbImageExist) {
+                    console.log(`Image ${FilesFactory_1.FileFactory.thumbFileName(query)}${FilesFactory_1.FileFactory.format} not exists. Creating images...`);
+                    isImageProcess = yield ImageProcessFacory_1.ImageProcessFactory.processImage(processImageParameters);
+                }
+                else {
+                    console.log(`Image ${FilesFactory_1.FileFactory.thumbFileName(query)}${FilesFactory_1.FileFactory.format} already exists.`);
+                }
+                if (!isImageProcess)
+                    throw new ErrorHandler_1.CustomError(`Ooops, can't create image.`, 422);
+                res.sendFile(mainThumbImagePath);
+            }
+            catch (err) {
+                if (err instanceof ErrorHandler_1.CustomError) {
+                    next(err);
+                }
+            }
         });
     }
 };
@@ -36,7 +60,7 @@ __decorate([
     (0, decorators_1.get)('/images'),
     (0, decorators_1.validator)('filename', 'width', 'height'),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:paramtypes", [Object, Object, Function]),
     __metadata("design:returntype", Promise)
 ], ImagesController.prototype, "getImages", null);
 ImagesController = __decorate([
