@@ -48,15 +48,19 @@ export const queryParamsValidation = (keys: string[]): RequestHandler => {
         isPositivInt(height, 'height');
       }
 
-      if (!fullImageExist && query.filename !== undefined)
-        throw new CustomError(
-          `Filename "${
-            query.filename
-          }" doesn't exist. Please use one of these filenames: ${[
-            ...getAllFullImageNames,
-          ].join(', ')}.`,
-          422,
-        );
+      if(getAllFullImageNames){
+        if (!fullImageExist && query.filename !== undefined)
+          throw new CustomError(
+            `Filename "${
+              query.filename
+            }" doesn't exist. Please use one of these filenames: ${[
+              ...getAllFullImageNames,
+            ].join(', ')}.`,
+            422,
+          );
+      }else{
+        throw new CustomError(`Wrong path dir type. Please use: ${ImageDirType.FULL} or ${ImageDirType.THUMB}`, 422)
+      }
 
       next();
     } catch (err) {

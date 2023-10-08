@@ -37,7 +37,7 @@ class FileFactory {
                 return allFiles || [];
             }
             catch (_a) {
-                return [];
+                return null;
             }
         });
     }
@@ -48,7 +48,10 @@ class FileFactory {
                 return false;
             }
             const fullImageNameArray = yield FileFactory.getImageNames("full" /* ImageDirType.FULL */);
-            return fullImageNameArray.includes(filename);
+            if (fullImageNameArray)
+                return fullImageNameArray.includes(filename);
+            else
+                return false;
         });
     }
     //creeate thumbFullName
@@ -63,7 +66,10 @@ class FileFactory {
             }
             const thumbImageName = FileFactory.thumbFileName(query);
             const thumbImageNameArray = yield FileFactory.getImageNames("thumb" /* ImageDirType.THUMB */);
-            return thumbImageNameArray.includes(thumbImageName);
+            if (thumbImageNameArray)
+                return thumbImageNameArray.includes(thumbImageName);
+            else
+                return false;
         });
     }
     static thumbImageMainPath(query) {

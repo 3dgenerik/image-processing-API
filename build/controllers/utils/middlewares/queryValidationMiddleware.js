@@ -42,10 +42,15 @@ const queryParamsValidation = (keys) => {
                 isPositivInt(width, 'width');
                 isPositivInt(height, 'height');
             }
-            if (!fullImageExist && query.filename !== undefined)
-                throw new ErrorHandler_1.CustomError(`Filename "${query.filename}" doesn't exist. Please use one of these filenames: ${[
-                    ...getAllFullImageNames,
-                ].join(', ')}.`, 422);
+            if (getAllFullImageNames) {
+                if (!fullImageExist && query.filename !== undefined)
+                    throw new ErrorHandler_1.CustomError(`Filename "${query.filename}" doesn't exist. Please use one of these filenames: ${[
+                        ...getAllFullImageNames,
+                    ].join(', ')}.`, 422);
+            }
+            else {
+                throw new ErrorHandler_1.CustomError(`Wrong path dir type. Please use: ${"full" /* ImageDirType.FULL */} or ${"thumb" /* ImageDirType.THUMB */}`, 422);
+            }
             next();
         }
         catch (err) {

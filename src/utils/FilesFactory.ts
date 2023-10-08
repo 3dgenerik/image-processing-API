@@ -27,7 +27,7 @@ export class FileFactory {
   }
 
   //get FULL or THUMB image names in folder
-  public static async getImageNames(dirType: ImageDirType): Promise<string[]> {
+  public static async getImageNames(dirType: ImageDirType): Promise<string[] | null> {
     const fullDirPath = FileFactory.getImageDirPath(dirType);
     const allFiles = (await fs.readdir(fullDirPath)).map(
       (imageName: string) => imageName.split('.')[0],
@@ -37,7 +37,7 @@ export class FileFactory {
       await fs.access(fullDirPath);
       return allFiles || [];
     } catch {
-      return [];
+      return null;
     }
   }
 
@@ -46,10 +46,14 @@ export class FileFactory {
     if (!filename) {
       return false;
     }
+
     const fullImageNameArray = await FileFactory.getImageNames(
       ImageDirType.FULL,
     );
-    return fullImageNameArray.includes(filename);
+    if(fullImageNameArray)
+      return fullImageNameArray.includes(filename);
+    else
+      return false;
   }
 
   //creeate thumbFullName
@@ -69,8 +73,11 @@ export class FileFactory {
     const thumbImageNameArray = await FileFactory.getImageNames(
       ImageDirType.THUMB,
     );
-
-    return thumbImageNameArray.includes(thumbImageName);
+    
+    if(thumbImageNameArray)
+      return thumbImageNameArray.includes(thumbImageName);
+    else
+      return false;
   }
 
   public static thumbImageMainPath(query: IQueryImage): string {
