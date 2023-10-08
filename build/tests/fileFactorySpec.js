@@ -13,25 +13,42 @@ const FilesFactory_1 = require("../utils/FilesFactory");
 const ImageProcessFacory_1 = require("../utils/ImageProcessFacory");
 const fs_1 = require("fs");
 describe('Test file factory: ', () => {
-    const filename = 'fjord';
+    const filename = 'santamonica';
     const query = {
         filename,
         width: 200,
         height: 200
     };
+    const fullImagePath = FilesFactory_1.FileFactory.fullImageMainPath(filename);
+    const thumbImagePath = FilesFactory_1.FileFactory.thumbImageMainPath(query);
+    const isFileExists = (filePath) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            yield fs_1.promises.access(filePath);
+            return true;
+        }
+        catch (_a) {
+            return false;
+        }
+    });
     beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
-        const fullImagePath = FilesFactory_1.FileFactory.fullImageMainPath(filename);
-        const thumbImagePath = FilesFactory_1.FileFactory.thumbImageMainPath(query);
         const imageToCreate = {
             sourceFile: fullImagePath,
             targetFile: thumbImagePath,
             width: 200,
             height: 200
         };
-        const isThumbExist = yield FilesFactory_1.FileFactory.doesThumbImageExist(query);
-        if (!isThumbExist) {
-            console.log(`...creating ${FilesFactory_1.FileFactory.thumbFileName(query)}${FilesFactory_1.FileFactory.format} temp file`);
-            yield ImageProcessFacory_1.ImageProcessFactory.processImage(imageToCreate);
+        const isThumbExist = yield isFileExists(thumbImagePath);
+        if (yield isFileExists(fullImagePath)) {
+            if (!isThumbExist) {
+                console.log(`...creating ${FilesFactory_1.FileFactory.thumbFileName(query)}${FilesFactory_1.FileFactory.format} temp file`);
+                yield ImageProcessFacory_1.ImageProcessFactory.processImage(imageToCreate);
+            }
+            else {
+                console.log(`Thumb ${FilesFactory_1.FileFactory.thumbFileName(query)}${FilesFactory_1.FileFactory.format} already exist. Skiping process image...`);
+            }
+        }
+        else {
+            console.log(`Full image ${filename} doesn't exist.`);
         }
     }));
     it('Image full path should be string and not to be null', () => {
@@ -62,10 +79,13 @@ describe('Test file factory: ', () => {
         expect(isExist).toBeTrue();
     }));
     afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
-        const isThumbExist = yield FilesFactory_1.FileFactory.doesThumbImageExist(query);
+        const isThumbExist = yield isFileExists(thumbImagePath);
         if (isThumbExist) {
             console.log(`...deleting ${FilesFactory_1.FileFactory.thumbFileName(query)}${FilesFactory_1.FileFactory.format} temp file`);
-            yield fs_1.promises.unlink(FilesFactory_1.FileFactory.thumbImageMainPath(query));
+            yield fs_1.promises.unlink(thumbImagePath);
+        }
+        else {
+            console.log(`Thumb doesn't exist. Skiping deleting...`);
         }
     }));
 });

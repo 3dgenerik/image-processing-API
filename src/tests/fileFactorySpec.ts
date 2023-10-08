@@ -7,19 +7,26 @@ import { promises as fs } from 'fs';
 
 
 describe('Test file factory: ', ()=>{
-    
-    const filename = 'fjord';
+    const filename = 'santamonica';
     const query: IQueryImage = {
         filename,
         width: 200,
         height: 200
     }
+    const fullImagePath = FileFactory.fullImageMainPath(filename) 
+    const thumbImagePath = FileFactory.thumbImageMainPath(query)
 
+    const isFileExists = async (filePath:string) => {
+        try {
+          await fs.access(filePath);
+          return true;
+        } catch{
+          return false;
+        }
+      };
 
+    
     beforeAll(async ()=>{
-
-        const fullImagePath = FileFactory.fullImageMainPath(filename) 
-        const thumbImagePath = FileFactory.thumbImageMainPath(query)
 
         const imageToCreate:IProcessImage = {
             sourceFile: fullImagePath,
@@ -28,11 +35,17 @@ describe('Test file factory: ', ()=>{
             height: 200
         }
 
-        const isThumbExist = await FileFactory.doesThumbImageExist(query)
-        
-        if(!isThumbExist){
-            console.log(`...creating ${FileFactory.thumbFileName(query)}${FileFactory.format} temp file`);
-            await ImageProcessFactory.processImage(imageToCreate)
+        const isThumbExist = await isFileExists(thumbImagePath)
+
+        if(await isFileExists(fullImagePath)){
+            if(!isThumbExist){
+                console.log(`...creating ${FileFactory.thumbFileName(query)}${FileFactory.format} temp file`);
+                await ImageProcessFactory.processImage(imageToCreate)
+            }else{
+                console.log(`Thumb ${FileFactory.thumbFileName(query)}${FileFactory.format} already exist. Skiping process image...`);
+            }
+        }else{
+            console.log(`Full image ${filename} doesn't exist.`);
         }
     })
 
@@ -72,11 +85,15 @@ describe('Test file factory: ', ()=>{
     })
 
     afterAll(async ()=>{
-        const isThumbExist = await FileFactory.doesThumbImageExist(query)
+
+        const isThumbExist = await isFileExists(thumbImagePath)
 
         if(isThumbExist){
             console.log(`...deleting ${FileFactory.thumbFileName(query)}${FileFactory.format} temp file`);
-            await fs.unlink(FileFactory.thumbImageMainPath(query))
+            await fs.unlink(thumbImagePath)
+
+        }else{
+            console.log(`Thumb doesn't exist. Skiping deleting...`);
         }
     })
 
