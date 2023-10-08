@@ -6,6 +6,7 @@ import { ImageProcessFactory } from '../utils/ImageProcessFacory';
 import { CustomError } from './utils/custom/ErrorHandler';
 
 @controller('/api')
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 class ImagesController {
   @get('/images')
   @validator('filename', 'width', 'height')
@@ -26,10 +27,20 @@ class ImagesController {
       };
 
       if (!thumbImageExist) {
-        console.log(`Image ${FileFactory.thumbFileName(query)}${FileFactory.format} not exists. Creating images...`,);
-        isImageProcess = await ImageProcessFactory.processImage(processImageParameters,);
+        console.log(
+          `Image ${FileFactory.thumbFileName(query)}${
+            FileFactory.format
+          } not exists. Creating images...`,
+        );
+        isImageProcess = await ImageProcessFactory.processImage(
+          processImageParameters,
+        );
       } else {
-        console.log(`Image ${FileFactory.thumbFileName(query)}${FileFactory.format} already exists.`);
+        console.log(
+          `Image ${FileFactory.thumbFileName(query)}${
+            FileFactory.format
+          } already exists.`,
+        );
       }
 
       if (!isImageProcess)

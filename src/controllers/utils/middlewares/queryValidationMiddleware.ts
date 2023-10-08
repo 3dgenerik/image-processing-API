@@ -16,10 +16,14 @@ export const queryParamsValidation = (keys: string[]): RequestHandler => {
       const query = req.query as unknown as IQueryImage;
       const width: number = parseInt(query.width as unknown as string);
       const height: number = parseInt(query.height as unknown as string);
-      const fullImageExist = await FileFactory.doesFullImageExist(query.filename);
-      const getAllFullImageNames = await FileFactory.getImageNames(ImageDirType.FULL)
+      const fullImageExist = await FileFactory.doesFullImageExist(
+        query.filename,
+      );
+      const getAllFullImageNames = await FileFactory.getImageNames(
+        ImageDirType.FULL,
+      );
 
-      let invalidQueryParams: string[] = [];
+      const invalidQueryParams: string[] = [];
 
       if (!query) {
         throw new CustomError('Invalid request', 422);
@@ -44,8 +48,15 @@ export const queryParamsValidation = (keys: string[]): RequestHandler => {
         isPositivInt(height, 'height');
       }
 
-      if(!fullImageExist && query.filename !== undefined)
-        throw new CustomError(`Filename "${query.filename}" doesn't exist. Please use one of these filenames: ${[...getAllFullImageNames].join(", ")}.`, 422);
+      if (!fullImageExist && query.filename !== undefined)
+        throw new CustomError(
+          `Filename "${
+            query.filename
+          }" doesn't exist. Please use one of these filenames: ${[
+            ...getAllFullImageNames,
+          ].join(', ')}.`,
+          422,
+        );
 
       next();
     } catch (err) {

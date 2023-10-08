@@ -6,7 +6,7 @@
   "scripts": {
     "build": "npx tsc",
     "start:build": "tsc -w",
-    "start:run": "nodemon src/app.ts",
+    "start:run": "nodemon build/app.js",
     "start": "concurrently npm:start:*",
     "prettier": "prettier --config .prettierrc src/**/*.ts --write",
     "lint": "eslint src/**/*.ts",
@@ -18,8 +18,8 @@
   "license": "ISC",
   "devDependencies": {
     "@types/supertest": "^2.0.13",
-    "@typescript-eslint/eslint-plugin": "^6.7.3",
-    "@typescript-eslint/parser": "^6.7.3",
+    "@typescript-eslint/eslint-plugin": "^6.7.4",
+    "@typescript-eslint/parser": "^6.7.4",
     "concurrently": "^8.2.1",
     "eslint": "^8.50.0",
     "nodemon": "^3.0.1",

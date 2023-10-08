@@ -25,7 +25,7 @@ const queryParamsValidation = (keys) => {
             const height = parseInt(query.height);
             const fullImageExist = yield FilesFactory_1.FileFactory.doesFullImageExist(query.filename);
             const getAllFullImageNames = yield FilesFactory_1.FileFactory.getImageNames("full" /* ImageDirType.FULL */);
-            let invalidQueryParams = [];
+            const invalidQueryParams = [];
             if (!query) {
                 throw new ErrorHandler_1.CustomError('Invalid request', 422);
             }
@@ -43,7 +43,9 @@ const queryParamsValidation = (keys) => {
                 isPositivInt(height, 'height');
             }
             if (!fullImageExist && query.filename !== undefined)
-                throw new ErrorHandler_1.CustomError(`Filename "${query.filename}" doesn't exist. Please use one of these filenames: ${[...getAllFullImageNames].join(", ")}.`, 422);
+                throw new ErrorHandler_1.CustomError(`Filename "${query.filename}" doesn't exist. Please use one of these filenames: ${[
+                    ...getAllFullImageNames,
+                ].join(', ')}.`, 422);
             next();
         }
         catch (err) {

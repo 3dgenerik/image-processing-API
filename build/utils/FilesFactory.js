@@ -78,5 +78,5 @@ class FileFactory {
 }
 exports.FileFactory = FileFactory;
 FileFactory.format = '.jpg';
-FileFactory.fullImagesDirPath = path_1.default.join(__dirname, '../../public/images/full');
-FileFactory.thumbImagesDirPath = path_1.default.join(__dirname, '../../public/images/thumb');
+FileFactory.fullImagesDirPath = path_1.default.join(__dirname, '../public/images/full');
+FileFactory.thumbImagesDirPath = path_1.default.join(__dirname, '../public/images/thumb');

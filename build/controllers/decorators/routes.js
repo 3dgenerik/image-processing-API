@@ -4,7 +4,8 @@ exports.post = exports.get = void 0;
 require("reflect-metadata");
 const methodWrapper = (method) => {
     return (path) => {
-        return (target, key, desc) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        return (target, key) => {
             Reflect.defineMetadata("path" /* AppFeatures.PATH */, path, target, key);
             Reflect.defineMetadata("method" /* AppFeatures.METHOD */, method, target, key);
         };

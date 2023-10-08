@@ -10,9 +10,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const decorators_1 = require("./decorators");
-let RootController = class RootController {
+let RootController = 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+class RootController {
     getRoot(req, res) {
-        const example = "/api/images?filename=fjord&width=200&height=200";
+        const example = '/api/images?filename=fjord&width=200&height=200';
         res.send(`
         <p>Please go to <a href="/api/images">/api/images</a> and use correct filename with correct width and height.</p><br>
         <div>
@@ -30,4 +32,5 @@ __decorate([
 ], RootController.prototype, "getRoot", null);
 RootController = __decorate([
     (0, decorators_1.controller)('/')
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
 ], RootController);

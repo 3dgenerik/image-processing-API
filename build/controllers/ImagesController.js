@@ -22,7 +22,9 @@ const decorators_1 = require("./decorators");
 const FilesFactory_1 = require("../utils/FilesFactory");
 const ImageProcessFacory_1 = require("../utils/ImageProcessFacory");
 const ErrorHandler_1 = require("./utils/custom/ErrorHandler");
-let ImagesController = class ImagesController {
+let ImagesController = 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+class ImagesController {
     getImages(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -65,4 +67,5 @@ __decorate([
 ], ImagesController.prototype, "getImages", null);
 ImagesController = __decorate([
     (0, decorators_1.controller)('/api')
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
 ], ImagesController);

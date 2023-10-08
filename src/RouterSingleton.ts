@@ -1,12 +1,12 @@
-import express, { Router } from 'express';
+import express from 'express';
 
-export class RouterSingleton{
-    private static instance: express.Router;
+export class RouterSingleton {
+  private static instance: express.Router;
 
-    public static getInstance():express.Router{
-        if(!RouterSingleton.instance){
-            RouterSingleton.instance = express.Router();
-        }
-        return RouterSingleton.instance;
+  public static getInstance(): express.Router {
+    if (!RouterSingleton.instance) {
+      RouterSingleton.instance = express.Router();
     }
+    return RouterSingleton.instance;
+  }
 }

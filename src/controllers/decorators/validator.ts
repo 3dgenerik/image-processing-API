@@ -1,9 +1,9 @@
-import 'reflect-metadata'
-import { AppFeatures } from '../../constants'
+import 'reflect-metadata';
+import { AppFeatures } from '../../constants';
 
-
-export const validator = (...keys: string[])=>{
-    return (target: any, key: string, desc: PropertyDescriptor)=>{
-        Reflect.defineMetadata(AppFeatures.VALIDATOR, [...keys], target, key)
-    }
-}
+export const validator = (...keys: string[]) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return (target: any, key: string) => {
+    Reflect.defineMetadata(AppFeatures.VALIDATOR, [...keys], target, key);
+  };
+};

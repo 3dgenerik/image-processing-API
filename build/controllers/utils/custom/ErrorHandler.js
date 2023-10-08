@@ -11,8 +11,8 @@ class CustomError extends Error {
         return {
             error: {
                 statusCode: this.statusCode,
-                message: this.message
-            }
+                message: this.message,
+            },
         };
     }
 }

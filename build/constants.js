@@ -8,5 +8,5 @@ const path_1 = __importDefault(require("path"));
 exports.constants = {
     prefixPath: '/api',
     publicPath: path_1.default.join(__dirname, '../public/images'),
-    apiImages: '/api/images'
+    apiImages: '/api/images',
 };

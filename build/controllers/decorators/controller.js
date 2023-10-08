@@ -11,7 +11,8 @@ const controller = (routePrefix) => {
         for (const key of targetPrototypeNames) {
             const path = Reflect.getMetadata("path" /* AppFeatures.PATH */, target.prototype, key);
             const method = Reflect.getMetadata("method" /* AppFeatures.METHOD */, target.prototype, key);
-            const middleware = Reflect.getMetadata("middleware" /* AppFeatures.MIDDLEWARE */, target.prototype, key) || [];
+            const middleware = Reflect.getMetadata("middleware" /* AppFeatures.MIDDLEWARE */, target.prototype, key) ||
+                [];
             const validation = Reflect.getMetadata("validator" /* AppFeatures.VALIDATOR */, target.prototype, key) || [];
             if (path && method) {
                 router[method](`${routePrefix}${path}`, [...middleware], (0, queryValidationMiddleware_1.queryParamsValidation)(validation), target.prototype[key]);
