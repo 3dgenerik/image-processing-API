@@ -15,7 +15,7 @@ let RootController =
 class RootController {
     getRoot(req, res) {
         const example = '/api/images?filename=fjord&width=200&height=200';
-        res.send(`
+        res.setHeader('Cache-Control', 'no-store').send(`
         <p>Please go to <a href="/api/images">/api/images</a> and use correct filename with correct width and height.</p><br>
         <div>
             <h4>Example: </h4>
