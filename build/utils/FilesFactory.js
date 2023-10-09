@@ -96,8 +96,10 @@ class FileFactory {
         return __awaiter(this, void 0, void 0, function* () {
             const thumbPath = FileFactory.getImageDirPath("thumb" /* ImageDirType.THUMB */);
             const ifThumbDirExist = yield FileFactory.ifThumbDirExist(thumbPath);
-            if (!ifThumbDirExist)
+            if (!ifThumbDirExist) {
+                console.log(`Missing thumb folder. Creating...`);
                 fs_1.promises.mkdir(thumbPath);
+            }
         });
     }
 }
