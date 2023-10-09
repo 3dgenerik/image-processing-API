@@ -81,6 +81,25 @@ class FileFactory {
         const imageDirPath = FileFactory.getImageDirPath("full" /* ImageDirType.FULL */);
         return `${path_1.default.join(imageDirPath, filename)}${FileFactory.format}`;
     }
+    static ifThumbDirExist(dirPath) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                yield fs_1.promises.access(dirPath);
+                return true;
+            }
+            catch (_a) {
+                return false;
+            }
+        });
+    }
+    static createThumbDir() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const thumbPath = FileFactory.getImageDirPath("thumb" /* ImageDirType.THUMB */);
+            const ifThumbDirExist = yield FileFactory.ifThumbDirExist(thumbPath);
+            if (!ifThumbDirExist)
+                fs_1.promises.mkdir(thumbPath);
+        });
+    }
 }
 exports.FileFactory = FileFactory;
 FileFactory.format = '.jpg';

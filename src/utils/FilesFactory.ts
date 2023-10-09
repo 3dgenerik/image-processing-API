@@ -92,4 +92,23 @@ export class FileFactory {
 
     return `${path.join(imageDirPath, filename)}${FileFactory.format}`;
   }
+
+  private static async ifThumbDirExist(dirPath: string):Promise<boolean>{
+    try{
+      await fs.access(dirPath)
+      return true
+    }catch{
+      return false
+    }
+  }
+
+  public static async createThumbDir():Promise<void>{
+    const thumbPath = FileFactory.getImageDirPath(ImageDirType.THUMB)
+    const ifThumbDirExist = await FileFactory.ifThumbDirExist(thumbPath)
+    if(!ifThumbDirExist){
+      console.log(`Missing thumb folder. Creating...`);
+      fs.mkdir(thumbPath)
+    }
+
+  }
 }

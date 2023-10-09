@@ -4,6 +4,9 @@ import { constants } from './constants';
 import { errorHandlerMiddleware } from './controllers/utils/middlewares/errorMiddleware';
 import './controllers/RootController';
 import './controllers/ImagesController';
+import { FileFactory } from './utils/FilesFactory';
+
+
 
 const app = express();
 
@@ -16,7 +19,8 @@ app.use(express.static(constants.publicPath));
 app.use(RouterSingleton.getInstance());
 app.use(errorHandlerMiddleware);
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
+  await FileFactory.createThumbDir()
   console.log(`...listening port ${PORT}`);
 });
 
