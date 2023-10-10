@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { controller, get, validator } from './decorators';
 import { IProcessImage, IQueryImage } from '../interfaces';
 import { FileFactory } from '../utils/FilesFactory';
-import { ImageProcessFactory } from '../utils/ImageProcessFacory';
+import { ImageProcessFactory } from '../utils/ImageProcessFactory';
 import { CustomError } from './utils/custom/ErrorHandler';
 
 @controller('/api')

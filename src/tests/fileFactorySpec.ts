@@ -1,7 +1,7 @@
 import { FileFactory } from '../utils/FilesFactory';
 import { ImageDirType } from '../constants';
 import { IQueryImage } from '../interfaces';
-import { ImageProcessFactory } from '../utils/ImageProcessFacory';
+import { ImageProcessFactory } from '../utils/ImageProcessFactory';
 import { IProcessImage } from '../interfaces';
 import { promises as fs } from 'fs';
 

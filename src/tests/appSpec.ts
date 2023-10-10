@@ -20,9 +20,9 @@ describe('Testing endpoints: ',()=>{
   });
 
   describe('Testing "/api/images" endpoint: ', () => {
-    it('"/api/images" - text should be "Invalid request. Missing query parameters: filename, width, height" ', async () => {
+    it('"/api/images" - text should be "You need to provide missing query parameters: filename, width, height" ', async () => {
       const result = await request.get('/api/images');
-      expect(result.text).toEqual("Invalid request. Missing query parameters: filename, width, height");
+      expect(result.text).toEqual("You need to provide missing query parameters: filename, width, height");
       expect(result.status).toBe(422)
     });
   });
@@ -43,9 +43,17 @@ describe('Testing endpoints: ',()=>{
   });
 
   describe('Testing "/api/images?filename=fjord&width=200&height=-200" endpoint: ', () => {
-    it('"/api/images?filename=fjord&width=200&height=-200" - text should be "height must be positive integer" ', async () => {
+    it('"/api/images?filename=fjord&width=200&height=-200" - text should be "Invalid request: height has invalid parameter value. Please use positive integer instead." ', async () => {
       const result = await request.get('/api/images?filename=fjord&width=200&height=-200');
-      expect(result.text).toEqual(`height must be positive integer`);
+      expect(result.text).toEqual(`Invalid request: height has invalid parameter value. Please use positive integer instead.`);
+      expect(result.status).toBe(422)
+    });
+  });
+
+  describe('Testing "/api/images?filename=fjord&width=&height=" endpoint: ', () => {
+    it('"/api/images?filename=fjord&width=&height=" - text should be "You need to provide missing query parameters: width, height." ', async () => {
+      const result = await request.get('/api/images?filename=fjord&width=&height=');
+      expect(result.text).toEqual(`You need to provide missing query parameters: width, height`);
       expect(result.status).toBe(422)
     });
   });
