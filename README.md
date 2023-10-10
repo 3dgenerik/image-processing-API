@@ -1,5 +1,28 @@
 # image-processing-API
 
+<br />
+
+### Scripts
+
+"build": "npx tsc",
+"start:build": "tsc -w",
+"start:run": "nodemon build/app.js",
+"start": "concurrently npm:start:*",
+"prettier": "prettier --config .prettierrc src/**/*.ts --write",
+"lint": "eslint src/**/*.ts",
+"jasmine": "jasmine",
+"test": "npm run build && npm run jasmine"
+<br />
+
+#### Explanation:
+    npm run build - only run build
+    npm start - run build and nodemon in live mode
+    npm run prettier - run prettier
+    npm run lint - run eslint
+    npm test - run build and tests 
+
+<br />
+<br />
 
 ### Starting endpoint with two links (/api/images and /api/images?filename=fjord&width=200&height=200)
 http://localhost:3000/

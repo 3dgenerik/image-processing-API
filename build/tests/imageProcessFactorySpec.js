@@ -35,7 +35,7 @@ const image = (filename) => {
     };
     return imageForProcessing;
 };
-fdescribe('Test image process: ', () => {
+describe('Test image process: ', () => {
     beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
         const fullThumbPath = thumbPath(Object.assign(Object.assign({}, query), { filename: validName }));
         try {
