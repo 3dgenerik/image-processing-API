@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const FilesFactory_1 = require("../utils/FilesFactory");
-const ImageProcessFacory_1 = require("../utils/ImageProcessFacory");
+const ImageProcessFactory_1 = require("../utils/ImageProcessFactory");
 const fs_1 = require("fs");
 describe('Test file factory: ', () => {
     const filename = 'santamonica';
@@ -41,7 +41,7 @@ describe('Test file factory: ', () => {
         if (yield isFileExists(fullImagePath)) {
             if (!isThumbExist) {
                 console.log(`...creating ${FilesFactory_1.FileFactory.thumbFileName(query)}${FilesFactory_1.FileFactory.format} temp file`);
-                yield ImageProcessFacory_1.ImageProcessFactory.processImage(imageToCreate);
+                yield ImageProcessFactory_1.ImageProcessFactory.processImage(imageToCreate);
             }
             else {
                 console.log(`Thumb ${FilesFactory_1.FileFactory.thumbFileName(query)}${FilesFactory_1.FileFactory.format} already exist. Skiping process image...`);

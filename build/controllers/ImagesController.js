@@ -20,7 +20,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const decorators_1 = require("./decorators");
 const FilesFactory_1 = require("../utils/FilesFactory");
-const ImageProcessFacory_1 = require("../utils/ImageProcessFacory");
+const ImageProcessFactory_1 = require("../utils/ImageProcessFactory");
 const ErrorHandler_1 = require("./utils/custom/ErrorHandler");
 let ImagesController = 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -41,7 +41,7 @@ class ImagesController {
                 };
                 if (!thumbImageExist) {
                     console.log(`Image ${FilesFactory_1.FileFactory.thumbFileName(query)}${FilesFactory_1.FileFactory.format} not exists. Creating images...`);
-                    isImageProcess = yield ImageProcessFacory_1.ImageProcessFactory.processImage(processImageParameters);
+                    isImageProcess = yield ImageProcessFactory_1.ImageProcessFactory.processImage(processImageParameters);
                 }
                 else {
                     console.log(`Image ${FilesFactory_1.FileFactory.thumbFileName(query)}${FilesFactory_1.FileFactory.format} already exists.`);
