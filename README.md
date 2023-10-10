@@ -8,11 +8,14 @@ http://localhost:3000/
 
 ### Endpoint where you need to provide missing query parameters
 http://localhost:3000/api/images
+
 <br />
 
 ### Endpoint with correct parameters
 http://localhost:3000/api/images?filename=fjord&width=200&height=200
+
 This will rescale fjord.jpg image to 200x200px and save (if doesn't exist) it to thumb folder (fjord_thumb_200x200.jpg).
+
 Note: For filename query you need to provide some of the following image names:
     - encenadaport
     - fjord
