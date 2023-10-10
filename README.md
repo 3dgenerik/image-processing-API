@@ -4,14 +4,14 @@
 
 ### Scripts
 
-"build": "npx tsc",
-"start:build": "tsc -w",
-"start:run": "nodemon build/app.js",
-"start": "concurrently npm:start:*",
-"prettier": "prettier --config .prettierrc src/**/*.ts --write",
-"lint": "eslint src/**/*.ts",
-"jasmine": "jasmine",
-"test": "npm run build && npm run jasmine"
+"build": "npx tsc",<br />
+"start:build": "tsc -w",<br />
+"start:run": "nodemon build/app.js",<br />
+"start": "concurrently npm:start:*",<br />
+"prettier": "prettier --config .prettierrc src/**/*.ts --write",<br />
+"lint": "eslint src/**/*.ts",<br />
+"jasmine": "jasmine",<br />
+"test": "npm run build && npm run jasmine"<br />
 <br />
 
 #### Explanation:
